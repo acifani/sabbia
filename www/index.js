@@ -5,6 +5,7 @@ const WIDTH = 128;
 const HEIGHT = 64;
 const CELL_SIZE = 8;
 const GRID_COLOR = '#222';
+
 const grid = Grid.new(WIDTH, HEIGHT);
 
 /** @type {HTMLCanvasElement} */
@@ -73,8 +74,14 @@ canvas.addEventListener('click', (event) => {
   const row = Math.min(Math.floor(canvasTop / CELL_SIZE), HEIGHT - 1);
   const col = Math.min(Math.floor(canvasLeft / CELL_SIZE), WIDTH - 1);
 
-  grid.set(col, row, pack_hsl(45, 100, 50));
+  grid.set(col, row, pack_hsl(...slightlyAlterColor(45, 35, 63)));
 });
+
+function slightlyAlterColor(hue, saturation, lightness) {
+  saturation += Math.random() * 20 - 10;
+  lightness += Math.random() * 20 - 10;
+  return [hue, saturation, lightness];
+}
 
 function unpackHSL(hsl) {
   const h = hsl >> 16;

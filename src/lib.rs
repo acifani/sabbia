@@ -27,6 +27,8 @@ extern "C" {
 #[wasm_bindgen]
 impl Grid {
     pub fn new(width: u32, height: u32) -> Grid {
+        utils::set_panic_hook();
+
         let mut grid = Vec::new();
         for _ in 0..(width * height) {
             grid.push(0);
