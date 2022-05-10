@@ -4,8 +4,9 @@ import { memory } from 'wasm-sand-simulator/wasm_sand_simulator_bg.wasm';
 const WIDTH = 128;
 const HEIGHT = 64;
 const CELL_SIZE = 8;
-const INPUT_RADIUS = 2;
 const INPUT_PROBABILITY = 0.5;
+
+let inputSize = 2;
 
 const grid = Grid.new(WIDTH, HEIGHT);
 
@@ -59,8 +60,8 @@ canvas.addEventListener('click', (event) => {
   const row = Math.min(Math.floor(canvasTop / CELL_SIZE), HEIGHT - 1);
   const col = Math.min(Math.floor(canvasLeft / CELL_SIZE), WIDTH - 1);
 
-  for (let rowDiff = -INPUT_RADIUS; rowDiff <= INPUT_RADIUS; rowDiff++) {
-    for (let colDiff = -INPUT_RADIUS; colDiff <= INPUT_RADIUS; colDiff++) {
+  for (let rowDiff = -inputSize; rowDiff <= inputSize; rowDiff++) {
+    for (let colDiff = -inputSize; colDiff <= inputSize; colDiff++) {
       const inputRow = row + rowDiff;
       const inputCol = col + colDiff;
       if (Math.random() < INPUT_PROBABILITY) {
@@ -86,3 +87,12 @@ function unpackHSL(hsl) {
   const l = hsl & 0xff;
   return [h, s, l];
 }
+
+document.getElementById('input-size').addEventListener('change', (event) => {
+  const size = event.target.value;
+  inputSize = parseInt(size);
+});
+
+document.getElementById('clear').addEventListener('click', () => {
+  grid.clear();
+});

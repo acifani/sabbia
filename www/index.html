@@ -53,6 +53,82 @@
         color: var(--primary-color-d);
       }
 
+      input,
+      button {
+        transition: all 0.2s;
+        transition-property: box-shadow, background-color, color;
+        border-radius: 0.25rem;
+      }
+
+      fieldset {
+        border: 1px solid var(--border-color);
+        display: inline-block;
+        border-radius: 0.25rem;
+        margin-top: 1rem;
+      }
+
+      label,
+      legend {
+        font-weight: 500;
+      }
+
+      button {
+        color: var(--text-color);
+        background-color: var(--default-btn-bg-color);
+        border: 0;
+        cursor: pointer;
+        font-size: 1rem;
+        font-weight: 600;
+        padding: 0.5rem 0.75rem;
+      }
+
+      button:hover,
+      button:focus {
+        background-color: var(--default-btn-hover-bg-color);
+      }
+
+      button:active {
+        background-color: var(--border-color);
+      }
+
+      button:active,
+      button:focus {
+        box-shadow: var(--shadow-color) 0 0 0 3px;
+        outline: none;
+      }
+
+      button.primary {
+        color: white;
+        background-color: var(--primary-color);
+      }
+
+      button.primary:hover,
+      button.primary:focus {
+        background-color: var(--primary-color-l);
+      }
+
+      button.primary:active {
+        background-color: var(--primary-color-d);
+      }
+
+      button.primary:active,
+      button.primary:focus {
+        box-shadow: var(--outline-color) 0 0 0 3px;
+      }
+
+      .controls {
+        display: flex;
+        gap: 1rem;
+        align-items: center;
+        margin: 1rem 0;
+      }
+
+      .slider {
+        display: flex;
+        align-items: flex-end;
+        gap: 0.5rem;
+      }
+
       canvas {
         border: 4px solid var(--border-color);
       }
@@ -77,6 +153,22 @@
       </p>
 
       <p><a href="https://github.com/acifani/sabbia">Source code</a></p>
+
+      <div class="controls">
+        <div class="slider">
+          <label for="input-size">Input size</label>
+          <input
+            type="range"
+            id="input-size"
+            name="input-size"
+            min="0"
+            max="5"
+            step="1"
+            value="2"
+          />
+        </div>
+        <div><button id="clear">Clear canvas</button></div>
+      </div>
 
       <canvas id="canvas"></canvas>
       <noscript>

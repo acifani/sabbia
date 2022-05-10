@@ -58,6 +58,12 @@ impl Grid {
     pub fn grid(&self) -> *const Color {
         self.grid.as_ptr()
     }
+
+    pub fn clear(&mut self) {
+        for pixel in self.grid.iter_mut() {
+            *pixel = 0;
+        }
+    }
 }
 
 impl Grid {
