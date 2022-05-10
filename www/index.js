@@ -4,7 +4,6 @@ import { memory } from 'wasm-sand-simulator/wasm_sand_simulator_bg.wasm';
 const WIDTH = 128;
 const HEIGHT = 64;
 const CELL_SIZE = 8;
-const GRID_COLOR = '#222';
 const INPUT_RADIUS = 2;
 const INPUT_PROBABILITY = 0.5;
 
@@ -12,32 +11,16 @@ const grid = Grid.new(WIDTH, HEIGHT);
 
 /** @type {HTMLCanvasElement} */
 const canvas = document.getElementById('canvas');
-canvas.height = CELL_SIZE * HEIGHT + 2;
-canvas.width = CELL_SIZE * WIDTH + 2;
+canvas.height = CELL_SIZE * HEIGHT;
+canvas.width = CELL_SIZE * WIDTH;
 const ctx = canvas.getContext('2d');
 
 renderLoop();
 
 function renderLoop() {
   grid.tick();
-
-  drawGrid();
   drawPixels();
-
   requestAnimationFrame(renderLoop);
-}
-
-function drawGrid() {
-  ctx.beginPath();
-  ctx.strokeStyle = GRID_COLOR;
-
-  ctx.moveTo(0, 0);
-  ctx.lineTo(WIDTH * CELL_SIZE + 2, 0);
-  ctx.lineTo(WIDTH * CELL_SIZE + 2, HEIGHT * CELL_SIZE + 2);
-  ctx.lineTo(0, HEIGHT * CELL_SIZE + 2);
-  ctx.lineTo(0, 0);
-
-  ctx.stroke();
 }
 
 function drawPixels() {
@@ -82,8 +65,8 @@ canvas.addEventListener('click', (event) => {
       const inputCol = col + colDiff;
       if (Math.random() < INPUT_PROBABILITY) {
         grid.set(
-          inputCol % WIDTH,
-          inputRow % HEIGHT,
+          Math.abs(inputCol % WIDTH),
+          Math.abs(inputRow % HEIGHT),
           pack_hsl(...slightlyAlterColor(45, 35, 63))
         );
       }
