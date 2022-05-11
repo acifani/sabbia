@@ -48,14 +48,39 @@ function getIndex(row, column) {
   return row * WIDTH + column;
 }
 
-canvas.addEventListener('click', (event) => {
+canvas.addEventListener('mousedown', (event) => {
+  let posX = event.clientX;
+  let posY = event.clientY;
+  let holding = true;
+
+  const spawnSand = () => {
+    if (holding) {
+      createSandAt(posX, posY);
+    }
+    requestAnimationFrame(spawnSand);
+  };
+
+  spawnSand();
+
+  const onMouseMove = (event) => {
+    posX = event.clientX;
+    posY = event.clientY;
+  };
+  canvas.addEventListener('mousemove', onMouseMove);
+  canvas.addEventListener('mouseup', () => {
+    holding = false;
+    canvas.removeEventListener('mousemove', onMouseMove);
+  });
+});
+
+function createSandAt(x, y) {
   const boundingRect = canvas.getBoundingClientRect();
 
   const scaleX = canvas.width / boundingRect.width;
   const scaleY = canvas.height / boundingRect.height;
 
-  const canvasLeft = (event.clientX - boundingRect.left) * scaleX;
-  const canvasTop = (event.clientY - boundingRect.top) * scaleY;
+  const canvasLeft = (x - boundingRect.left) * scaleX;
+  const canvasTop = (y - boundingRect.top) * scaleY;
 
   const row = Math.min(Math.floor(canvasTop / CELL_SIZE), HEIGHT - 1);
   const col = Math.min(Math.floor(canvasLeft / CELL_SIZE), WIDTH - 1);
@@ -73,7 +98,7 @@ canvas.addEventListener('click', (event) => {
       }
     }
   }
-});
+}
 
 function slightlyAlterColor(hue, saturation, lightness) {
   saturation += Math.random() * 20 - 10;
